@@ -4,7 +4,11 @@ import pandas as pd
 
 url="https://data-api.ecb.europa.eu/service/data/EXR/M.USD.EUR.SP00.A"
 
-response = requests.get(url)
+try:
+    response = requests.get(url, timeout=10)
+except requests.exceptions.RequestException as e:
+    print(f"Error fetching data from ECB API: {e}")
+    exit(1)
 root = ET.fromstring(response.content)
 data = []
 
