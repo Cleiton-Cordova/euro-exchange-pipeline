@@ -46,7 +46,7 @@ df.to_csv("data/exchange_rates.csv", index=False)
 
 print(df.head())
 print(df.dtypes)
-print(df.tail())
+
 
     
 
