@@ -29,6 +29,19 @@ df = pd.DataFrame(data, columns=["date", "exchange_rate"])
 df["date"] = pd.to_datetime(df["date"], format="%Y-%m")
 df["exchange_rate"] = pd.to_numeric(df["exchange_rate"])
 
+# Validate the processed data
+if df.empty:
+    raise ValueError("No exchange rate data was returned by the ECB API.")
+
+if df[["date", "exchange_rate"]].isnull().any().any():
+    raise ValueError("Missing values found in the dataset.")
+
+if df["date"].duplicated().any():
+    raise ValueError("Duplicate dates found in the dataset.")
+
+if (df["exchange_rate"] <= 0).any():
+    raise ValueError("Invalid exchange rate found in the dataset.")
+
 df.to_csv("data/exchange_rates.csv", index=False)
 
 print(df.head())
